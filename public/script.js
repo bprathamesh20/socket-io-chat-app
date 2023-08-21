@@ -75,17 +75,17 @@ document.addEventListener("DOMContentLoaded", () => {
     chatArea.appendChild(chatBubble);
     chatArea.scrollTop = chatArea.scrollHeight;
   });
-
   socket.on("onlineUsers", users => {
     onlineUsersList.innerHTML = ""; // Clear existing user list
 
     users.forEach(user => {
-      const userItem = document.createElement("li");
-      userItem.classList.add("text-gray-400", "hover:text-white", "cursor-pointer");
-      userItem.textContent = user;
-      onlineUsersList.appendChild(userItem);
+        const userItem = document.createElement("li");
+        userItem.classList.add("text-gray-400", "hover:text-white", "cursor-pointer");
+        userItem.textContent = user;
+        onlineUsersList.appendChild(userItem);
     });
-  });
+});
+
 
   function showCommands() {
     const commandsMessage = `
