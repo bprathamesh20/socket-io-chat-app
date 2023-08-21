@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const messageInput = document.getElementById("messageInput");
   const sendButton = document.getElementById("sendButton");
   const chatArea = document.getElementById("chat-area");
+  const onlineUsersList = document.getElementById("online-users-list");
 
   let username = prompt("Enter your username:");
 
@@ -12,8 +13,26 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // Emoji conversion map
+  const emojiMap = {
+    lol: "😂",
+    hey: "👋",
+    // Add more mappings here
+  };
+
   sendButton.addEventListener("click", () => {
-    const message = messageInput.value.trim();
+    let message = messageInput.value.trim();
+    const words = message.split(" ");
+
+    // Convert words to emojis using the emojiMap
+    words.forEach((word, index) => {
+      if (emojiMap[word.toLowerCase()]) {
+        words[index] = emojiMap[word.toLowerCase()];
+      }
+    });
+
+    message = words.join(" ");
+
     if (message) {
       socket.emit("message", { sender: username, text: message });
       messageInput.value = "";
@@ -43,5 +62,16 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     chatArea.appendChild(chatBubble);
     chatArea.scrollTop = chatArea.scrollHeight;
+  });
+
+  socket.on("onlineUsers", users => {
+    onlineUsersList.innerHTML = ""; // Clear existing user list
+
+    users.forEach(user => {
+      const userItem = document.createElement("li");
+      userItem.classList.add("text-gray-400", "hover:text-white", "cursor-pointer");
+      userItem.textContent = user;
+      onlineUsersList.appendChild(userItem);
+    });
   });
 });
