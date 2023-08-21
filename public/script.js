@@ -24,6 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
     let message = messageInput.value.trim();
     const words = message.split(" ");
 
+    // Convert /commands
+    if (words[0].startsWith("/")) {
+      const command = words[0].toLowerCase();
+      if (command === "/commands") {
+        showCommands();
+        return;
+      } else if (command === "/emojis") {
+        showEmojis();
+        return;
+      }
+    }
+
     // Convert words to emojis using the emojiMap
     words.forEach((word, index) => {
       if (emojiMap[word.toLowerCase()]) {
@@ -74,4 +86,39 @@ document.addEventListener("DOMContentLoaded", () => {
       onlineUsersList.appendChild(userItem);
     });
   });
+
+  function showCommands() {
+    const commandsMessage = `
+      Available commands:
+      /commands - Show available commands
+      /emojis - Show available emojis
+    `;
+    const systemMessage = { sender: "System", text: commandsMessage };
+    appendSystemMessage(systemMessage);
+  }
+
+  function showEmojis() {
+    const emojiList = Object.keys(emojiMap).join(", ");
+    const emojisMessage = `Available emojis: ${emojiList}`;
+    const systemMessage = { sender: "System", text: emojisMessage };
+    appendSystemMessage(systemMessage);
+  }
+
+  function appendSystemMessage(message) {
+    const chatBubble = document.createElement("div");
+    chatBubble.classList.add("chat", "chat-start");
+    chatBubble.innerHTML = `
+      <div class="chat-image avatar">
+        <div class="w-10 rounded-full">
+          <img src="userimg.png" />
+        </div>
+      </div>
+      <div class="chat-header">
+        ${message.sender}
+      </div>
+      <div class="chat-bubble">${message.text}</div>
+    `;
+    chatArea.appendChild(chatBubble);
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
 });
