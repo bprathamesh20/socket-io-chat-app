@@ -15,8 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Emoji conversion map
   const emojiMap = {
-    lol: "😂",
+    react: "⚛️",
+    woah: "😲",
     hey: "👋",
+    lol: "😂",
+    like: "🤍",
+    congratulations: "🎉",
     // Add more mappings here
   };
 
@@ -79,12 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
     onlineUsersList.innerHTML = ""; // Clear existing user list
 
     users.forEach(user => {
-        const userItem = document.createElement("li");
-        userItem.classList.add("text-gray-400", "hover:text-white", "cursor-pointer");
-        userItem.textContent = user;
-        onlineUsersList.appendChild(userItem);
+      const userItem = document.createElement("li");
+      userItem.classList.add("text-gray-400", "hover:text-white", "cursor-pointer");
+      userItem.textContent = user;
+      onlineUsersList.appendChild(userItem);
     });
-});
+  });
 
 
   function showCommands() {
